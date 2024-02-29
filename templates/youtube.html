@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Video Downloader</title>
+</head>
+<body>
+    <div style="color:blue">
+        <form action="{{ url_for('download')}}" method="post">
+            <h2>Youtube video downloader</h2>
+            <h3>Url Link</h3>
+            <input id="first" name="URL_Link" type="url">
+            </select>
+            
+            <br><br><button id="sub" type="submit ">Download Video</button>
+            <br>
+        </form>
+    </div>
+</body>
+</html>
