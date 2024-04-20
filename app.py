@@ -51,7 +51,7 @@ def download_all_posts():
         result = request.form
         username = request.form['username']
 
-        loader = instaloader.Instaloader(download_comments=False, save_metadata=False, download_geotags=False)
+        loader = instaloader.Instaloader(download_comments=False, save_metadata=False, download_geotags=False, download_video_thumbnails=False)
         loader.download_comments = loader.save_metadata = False
 
         download_folder = "instagram-"+username
@@ -62,8 +62,13 @@ def download_all_posts():
             profile = instaloader.Profile.from_username(
                 loader.context, username)
 
+            cnt=0
             for post in profile.get_posts():
-                loader.download_post(post, target=download_folder)
+                # if(cnt==5):
+                #     break
+                if(post.is_video is not True):
+                    loader.download_post(post, target=download_folder)
+                    cnt+=1
             
             delete_txt_files(download_folder)
 
