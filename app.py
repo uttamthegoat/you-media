@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from pytube import YouTube
+from pytube import YouTube, Playlist
 import os
 import instaloader
 from utils import delete_txt_files
@@ -19,7 +19,7 @@ def youtube_media():
 
 
 @app.route('/downloadmedia', methods=["POST"])
-def download():
+def download_media():
     if request.method == "POST":
         result = request.form
         video_url = request.form['URL_Link']
@@ -38,6 +38,36 @@ def download():
         except Exception as e:
             error_message = f"An error occurred: {str(e)}"
             return render_template("result.html", result=result, success=False, error_message=error_message)
+        
+@app.route('/download-playlist', methods=["POST"])
+def download_playlist():
+    if request.method == "POST":
+        result = request.form
+        links = request.form['playlist_Link']
+        folder_name = request.form['folder_Name']
+
+        try:
+            SAVE_PATH = folder_name
+            os.makedirs(SAVE_PATH)
+
+            playlist = Playlist(links)
+            PlayListLinks = playlist.video_urls
+            N = len(PlayListLinks)
+            
+            print(f"This link found to be a Playlist Link with number of videos equal to {N} ")
+            print(f"\n Lets Download all {N} videos")
+
+            for i,link in enumerate(PlayListLinks):
+
+                yt = YouTube(link)
+                d_video = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
+                d_video.download(SAVE_PATH)
+                print(i+1, ' Video is Downloaded.')
+            return render_template("result.html", result=result, success=True, video_path=SAVE_PATH)
+        except Exception as e:
+            error_message = f"An error occurred: {str(e)}"
+            return render_template("result.html", result=result, success=False, error_message=error_message)
+
 
 
 @app.route('/instagram-post')

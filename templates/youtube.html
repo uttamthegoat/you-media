@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Youtube Video Downloader</title>
 </head>
+
 <body>
     <div style="color:blue">
-        <form action="{{ url_for('download')}}" method="post">
+        <p>Note: only paste the link. Remove any extra queries</p>
+        <form action="{{ url_for('download_media')}}" method="post">
             <h2>Youtube video downloader</h2>
             <h3>Url Link</h3>
             <input id="first" name="URL_Link" type="url">
             </select>
-            
+
             <br><br><button id="sub" type="submit ">Download Video</button>
             <br>
         </form>
     </div>
+    <hr>
+    <div>
+        <p>Note: only paste the link. Remove any extra queries</p>
+        <form action="{{ url_for('download_playlist')}}" method="post">
+            <h2>Youtube playlist downloader</h2>
+            <h3>Url Link</h3>
+            <input id="second" name="playlist_Link" type="url">
+            <br>
+            <h2>Enter the folder name</h2>
+            <input id="folder_name" name="folder_Name" type="text">
+            <br><br><button id="playlist" type="submit ">Download playlist</button>
+            <br>
+            </select>
+        </form>
+    </div>
 </body>
+
 </html>
