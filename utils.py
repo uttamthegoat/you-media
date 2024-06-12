@@ -1,4 +1,5 @@
 import os
+from flask import jsonify, render_template
 
 def delete_txt_files(download_folder):
     try:
@@ -21,3 +22,18 @@ def delete_txt_files(download_folder):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
+
+
+def try_except_wrapper(func):
+    def wrapper(*args, **kwargs):
+        try:
+            # Call the original function with provided arguments
+            return func(*args, **kwargs)
+        except Exception as e:
+            # Handle the exception here
+            # error_message=f"An error occurred: {e}"
+            # Optionally, you can raise the exception again to propagate it
+            # return jsonify({"error": error_message}), 500
+            error_message = f"An error occurred: {str(e)}"
+            return render_template("result.html", success=False, error_message=error_message)
+    return wrapper
